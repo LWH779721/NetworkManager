@@ -35,6 +35,7 @@ public:
         IDLE,
         AP,
         DISCONNECTED,
+		CONNECTING,
         CONNECTED,
         UNKNOWN,
     };

@@ -23,7 +23,7 @@ Others:
 #include "unistd.h"
 #include <malloc.h>
 
-#include "SmartLink/wpa_ctrl.h"
+#include "wpa_ctrl.h"
 
 
 /**

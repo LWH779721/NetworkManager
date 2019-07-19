@@ -10,8 +10,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h> 
 
-#include "SmartLink/WifiManager.h"
-#include "SmartLink/wpa_ctrl.h"
+#include "WifiManager.h"
+#include "wpa_ctrl.h"
 
 using namespace std;
 
@@ -77,7 +77,7 @@ bool WifiManager::setupAp(){
     m_observer->onWifiStatusChanged(LightCommSpeaker::avsCommon::sdkInterfaces::WifiStatusObserverInterface::AP);
     m_wifiStatus = LightCommSpeaker::avsCommon::sdkInterfaces::WifiStatusObserverInterface::AP;
     
-	return true;
+	return true;
 }
 
 bool WifiManager::shutdownAp(){
@@ -101,7 +101,7 @@ bool WifiManager::shutdownAp(){
     m_monitorThread = std::thread(&WifiManager::monitor, this); 
 	m_monitorThread.detach();
     
-	return true;
+	return true;
 }
 
 WifiManager::WifiManager(const string &apSsid, const string &apPasswd):m_apSetuped(false),
@@ -241,6 +241,12 @@ bool WifiManager::wifiConnect(const string &ssid, const string &passwd){
     system("killall udhcpc");
     system("udhcpc -i wlan0 -s /usr/share/udhcpc/mtkdhcp.script -p /tmp/udhcpc-wlan0.pid -n -t 20 -T 2 -x hostname:bws02l-consys-slc-128-32b &");
 
+    if (m_wifiStatus != LightCommSpeaker::avsCommon::sdkInterfaces::WifiStatusObserverInterface::CONNECTING){
+        m_wifiStatus = LightCommSpeaker::avsCommon::sdkInterfaces::WifiStatusObserverInterface::CONNECTING;
+        m_observer->onWifiStatusChanged(
+            LightCommSpeaker::avsCommon::sdkInterfaces::WifiStatusObserverInterface::CONNECTING);
+    }
+        
     return true;
 }
 
